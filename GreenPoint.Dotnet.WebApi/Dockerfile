@@ -7,8 +7,6 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["GreenPoint.Dotnet.WebApi/GreenPoint.Dotnet.WebApi.csproj", "GreenPoint.Dotnet.WebApi/"]
 COPY ["GreenPoint.Dotnet.Services/GreenPoint.Dotnet.Services.csproj", "GreenPoint.Dotnet.Services/"]
-COPY ["GreenPoint.Dotnet.DataAccess/GreenPoint.Dotnet.DataAccess.csproj", "GreenPoint.Dotnet.DataAccess/"]
-COPY ["GreenPoint.Dotnet.Contracts/GreenPoint.Dotnet.Contracts.csproj", "GreenPoint.Dotnet.Contracts/"]
 RUN dotnet restore "GreenPoint.Dotnet.WebApi/GreenPoint.Dotnet.WebApi.csproj"
 COPY . .
 WORKDIR "/src/GreenPoint.Dotnet.WebApi"
