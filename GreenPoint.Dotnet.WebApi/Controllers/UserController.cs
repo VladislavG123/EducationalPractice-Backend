@@ -105,6 +105,7 @@ namespace GreenPoint.Dotnet.WebApi.Controllers
             return Ok(code);
         }
 
+        [AllowAnonymous]
         [HttpPost("code/{code}")]
         public async Task<IActionResult> GetTokenByCode(string code)
         {
