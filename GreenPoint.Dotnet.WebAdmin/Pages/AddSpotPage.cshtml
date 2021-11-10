@@ -1,0 +1,160 @@
+@page "/spots/add"
+@model AddSpotPage
+
+
+<!-- Breadcomb area Start-->
+<div class="breadcomb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcomb-list">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="breadcomb-wp">
+                                <div class="breadcomb-icon">
+                                    <i class="notika-icon notika-form"></i>
+                                </div>
+                                <div class="breadcomb-ctn">
+                                    <h2>Создание проблемной точки</h2>
+                                    <p>Опишите проблему как можно подробнее</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcomb area End-->
+<div class="form-element-area">
+    <div class="container">
+        <div class="row">
+
+            @if ((bool) (ViewData["ShowOk"] ?? false))
+            {
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">
+                            <i class="notika-icon notika-close"></i>
+                        </span>
+                    </button> Проблемная точка успешно создана
+                </div>
+            }
+            @if ((bool) (ViewData["ShowError"] ?? false))
+            {
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">
+                            <i class="notika-icon notika-close"></i>
+                        </span>
+                    </button> Не удалось создать проблемную точку. Ошибка: @ViewData["Error"]
+                </div>
+            }
+
+            <form asp-page-handler="Spot" method="post" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-element-list">
+                    <div class="basic-tb-hd">
+                        <h2>Новая проблемная точка</h2>
+                        <div class="form-group">
+                            <div class="nk-int-st">
+                                <input required type="text" name="title" class="form-control" placeholder="Заголовок">
+                            </div>
+                        </div>
+                        <div class="floating-numner form-rlt-mg">
+                            <p>Подробное описание</p>
+                        </div>
+                        <div class="form-group">
+                            <div class="nk-int-st">
+                                <textarea required name="details" class="form-control" rows="5" placeholder="Подробное описание..."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 align-middle">
+                            <div class="form-group">
+                                <div class="nk-int-st">
+                                    <h2>Выбор координат проблемной точки</h2>
+                                    <p>Выберите на карте расположение проблемной точки</p>
+                                    <br>
+                                    <input required type="text" name="lng" class="form-control" id="googlemap_lng" placeholder="Широта">
+                                    <br>
+                                    <input required type="text" name="lat" class="form-control" id="googlemap_lat" placeholder="Долгота">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                            <div class="google-map-single">
+                                <div id="map6"></div>
+                            </div>
+                        </div>
+                
+                        
+                        <h2>Прикрепите фотографии к проблемной точке</h2>
+                        
+                        <input type="hidden" name="urls" id="urls">
+                        
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                            <div class="form-example-int form-example-st">
+                                <div class="form-group">
+                                    <div class="nk-int-st">
+                                        <input name="formFile" id="file" type="file" placeholder="Фотография точки">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12">
+                            <div class="form-example-int">
+                                <button type="button" onclick="UploadImage()" class="btn btn-success notika-btn-success waves-effect">Загрузить</button>
+                            </div>
+                        </div>
+                        <div id="imgs" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" 
+                             style="display: flex;justify-content: space-around;">
+                            
+                        </div>
+
+                        <br>
+                        <div class="form-group">
+                            <div class="nk-int-st mx-auto d-flex justify-content-center">
+                                <button type="submit" class="btn btn-lg btn-primary">Отправить</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        function UploadImage() {
+             data = new FormData();
+             data.append('formFile', $( '#file' )[0].files[0] );
+             url = '/spots/add?handler=UploadPhoto'
+                
+            $.ajax({
+                url: url,
+                data: new FormData(document.forms[0]),
+                contentType: false,
+                processData: false,
+                type: 'post',
+                success: function (data, textStatus) {
+                    $("#imgs").append('<img src="'+data+'" alt="asd" style="height: 200px;">')
+                    $("#urls").val($("#urls").val() + "," + data)
+                },
+                error: function (data, textStatus){
+                    console.log(textStatus)
+                }
+                    
+            });
+        }
+    
+     </script>
+
+    <script src="js/google.maps/google.maps-active.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCVOIQ3qXUCmKVVV7DVexPzlgBcj5mQJmQ&callback=initMap"></script>
+
+}

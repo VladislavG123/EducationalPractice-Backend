@@ -1,0 +1,81 @@
+@page "/spots"
+@model GreenPoint.Dotnet.WebAdmin.Pages.SpotListPage
+
+
+<!-- Breadcomb area Start-->
+<div class="breadcomb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="breadcomb-list">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="breadcomb-wp">
+                                <div class="breadcomb-icon">
+                                    <i class="notika-icon notika-form"></i>
+                                </div>
+                                <div class="breadcomb-ctn">
+                                    <h2>Список проблемных точек</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcomb area End-->
+
+<div class="data-table-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="data-table-list">
+                    <div class="basic-tb-hd">
+                        <h2>Список всех проблемных точек</h2>
+                        <p>Полная информация о проблемных точках</p>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="data-table-basic" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Заголовок</th>
+                                <th>Детали</th>
+                                <th>Широта</th>
+                                <th>Долгота</th>
+                                <th>Дата создания</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var spot in Model.Spots)
+                            {
+                                <tr>
+                                    <td>@spot.Title</td>
+                                    <td>@spot.Details</td>
+                                    <td>@spot.Latitude</td>
+                                    <td>@spot.Langitude</td>
+                                    <td>@spot.CreationDate.ToString("dd.MM.yyyy")</td>
+                                    <td><a href="/spots/remove/@spot.Id">Удалить</a></td>
+                                </tr>   
+                            }
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Заголовок</th>
+                                <th>Детали</th>
+                                <th>Широта</th>
+                                <th>Долгота</th>
+                                <th>Дата создания</th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

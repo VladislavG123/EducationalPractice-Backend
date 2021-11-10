@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\GreenPoint.Dotnet.Contracts\GreenPoint.Dotnet.Contracts.csproj" />
+      <ProjectReference Include="..\GreenPoint.Dotnet.DataAccess\GreenPoint.Dotnet.DataAccess.csproj" />
+    </ItemGroup>
+
+</Project>
