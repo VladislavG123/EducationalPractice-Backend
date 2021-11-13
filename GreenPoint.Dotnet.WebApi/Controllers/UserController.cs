@@ -47,7 +47,7 @@ namespace GreenPoint.Dotnet.WebApi.Controllers
                 Email = user.Email,
                 Id = user.Id,
                 Username = user.Username,
-                Status = status.Name,
+                Status = status?.Name ?? "No status",
                 AvatarUrl = avatar?.Url
             });
 
