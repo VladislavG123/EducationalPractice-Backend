@@ -40,11 +40,12 @@ namespace GreenPoint.Dotnet.WebApi
         {
             
             // DbContext
-            /*services.AddDbContext<ApplicationContext>(
-                options => options.UseSqlServer(
-                    Configuration.GetConnectionString("DevConnection")));*/
             services.AddDbContext<ApplicationContext>(
-                options => options.UseInMemoryDatabase("MEMORY_DB"));
+                options => options.UseNpgsql(
+                    Configuration.GetConnectionString("NpgSql")));
+            
+            // services.AddDbContext<ApplicationContext>(
+            //     options => options.UseInMemoryDatabase("MEMORY_DB"));
 
             // Providers
             services.AddTransient<UserProvider>();

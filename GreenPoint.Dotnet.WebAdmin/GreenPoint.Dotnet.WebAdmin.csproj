@@ -23,6 +23,7 @@
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.12" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.12" />
       <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
     </ItemGroup>
 
 </Project>
