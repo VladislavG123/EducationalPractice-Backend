@@ -9,16 +9,8 @@ namespace GreenPoint.Dotnet.DataAccess
     {
         public ApplicationContext(DbContextOptions options) : base(options)
         {
-            try
-            {
-                // It should throw exception when migrations are not available,
-                // for example in a tests
-                Database.Migrate();
-            }
-            catch (InvalidOperationException)
-            {
                 Database.EnsureCreated();
-            }
+            
 
         }
 
