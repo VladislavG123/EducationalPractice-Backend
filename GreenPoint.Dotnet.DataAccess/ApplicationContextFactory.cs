@@ -14,10 +14,10 @@ namespace GreenPoint.Dotnet.DataAccess
                 .AddJsonFile("appsettings.core.json")
                 .Build();
 
-            var connectionString = config.GetConnectionString("DevConnection");
+            var connectionString = config.GetConnectionString("NpgSql");
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseNpgsql(connectionString);
 
             return new ApplicationContext(optionsBuilder.Options);
         }
