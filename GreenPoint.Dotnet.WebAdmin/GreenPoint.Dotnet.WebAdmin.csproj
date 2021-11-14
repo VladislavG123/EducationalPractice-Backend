@@ -7,6 +7,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\GreenPoint.Dotnet.DataAccess\GreenPoint.Dotnet.DataAccess.csproj" />
+      <ProjectReference Include="..\GreenPoint.Dotnet.Services\GreenPoint.Dotnet.Services.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -19,6 +20,9 @@
     <ItemGroup>
       <PackageReference Include="AWSSDK.Core" Version="3.7.0.15" />
       <PackageReference Include="AWSSDK.S3" Version="3.7.0.16" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.12" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.12" />
+      <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
     </ItemGroup>
 
 </Project>

@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using GreenPoint.Dotnet.Contracts.Options;
 using GreenPoint.Dotnet.DataAccess;
 using GreenPoint.Dotnet.DataAccess.Providers;
+using GreenPoint.Dotnet.Services;
 using GreenPoint.Dotnet.WebAdmin.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace GreenPoint.Dotnet.WebAdmin
 {
@@ -32,12 +37,16 @@ namespace GreenPoint.Dotnet.WebAdmin
         {
             // Options
             services.Configure<AwsS3Options>(Configuration.GetSection("AwsS3"));
+            services.Configure<SecretOption>(Configuration.GetSection("Secrets"));
 
             // DbContext
-            services.AddDbContext<ApplicationContext>(
-                options => options.UseSqlServer(
-                    Configuration.GetConnectionString("DevConnection")));
+            // services.AddDbContext<ApplicationContext>(
+            //     options => options.UseSqlServer(
+            //         Configuration.GetConnectionString("DevConnection")));
 
+            services.AddDbContext<ApplicationContext>(
+                options => options.UseInMemoryDatabase("MEMORY_DB"));
+            
             services.AddTransient<AdminAuthenticationService>();
             services.AddTransient<AdminProvider>();
             services.AddTransient<SpotProvider>();
@@ -46,16 +55,34 @@ namespace GreenPoint.Dotnet.WebAdmin
             services.AddTransient<UserProvider>();
             services.AddTransient<SpotImageProvider>();
             services.AddTransient<CommentProvider>();
-                            
+            services.AddTransient<UserCodeProvider>();
+
+            services.AddScoped<UserAuthenticationService>();
             services.AddScoped<AwsS3FileUploadService>();
+            
+            
+            // configure jwt authentication
+            var secrets = Configuration.GetSection("Secrets");
+
+            var key = Encoding.ASCII.GetBytes(secrets.GetValue<string>("JWTSecret"));
             
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.LoginPath = "/Auth";
+                }).AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                    };
                 });
 
-            
             services.AddRazorPages();
             services.AddHttpContextAccessor();
         }

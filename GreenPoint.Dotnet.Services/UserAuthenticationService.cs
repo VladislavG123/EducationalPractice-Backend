@@ -99,7 +99,7 @@ namespace GreenPoint.Dotnet.Services
         /// <param name="token"></param>
         /// <exception cref="ArgumentException">throws when could not parse claims</exception>
         /// <returns>Owner's data</returns>
-        private UserClaimsDto DecryptToken(string token)
+        public UserClaimsDto DecryptToken(string token)
         {
             var handler = new JwtSecurityTokenHandler();
 
