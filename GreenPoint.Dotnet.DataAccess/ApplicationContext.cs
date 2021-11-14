@@ -43,10 +43,6 @@ namespace GreenPoint.Dotnet.DataAccess
                 Password = BCrypt.Net.BCrypt.HashPassword("123123")
             };
             modelBuilder.Entity<Admin>().HasData(admin);
-
-            modelBuilder.Entity<Admin>()
-                .HasIndex(a => a.Login)
-                .IsUnique();
         }
 
     }
